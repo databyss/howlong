@@ -88,6 +88,12 @@ function dateModify(whichDate, dir, part) {
 						// not the same. This happens because the days caused a roll over, probably do to the length of the month
 						// so we will set the new days to the end of the new month
 						daysVal = getDaysInMonth(yearVal, monthVal)
+						// display as 2 digits always
+						if(dayVal < 10) {
+							dayObj.text('0' + dayVal);
+						} else {
+							dayObj.text(dayVal);
+						}					
 					}
 					
 					yearObj.text(yearVal.toFixed(0));
@@ -106,6 +112,12 @@ function dateModify(whichDate, dir, part) {
 						// not the same. This happens because the days caused a roll over, probably do to the length of the month
 						// so we will set the new days to the end of the new month
 						daysVal = getDaysInMonth(yearVal, monthVal)
+						// display as 2 digits always
+						if(dayVal < 10) {
+							dayObj.text('0' + dayVal);
+						} else {
+							dayObj.text(dayVal);
+						}					
 					}
 					
 					
@@ -153,6 +165,12 @@ function dateModify(whichDate, dir, part) {
 						// not the same. This happens because the days caused a roll over, probably do to the length of the month
 						// so we will set the new days to the end of the new month
 						daysVal = getDaysInMonth(yearVal, monthVal)
+						// display as 2 digits always
+						if(dayVal < 10) {
+							dayObj.text('0' + dayVal);
+						} else {
+							dayObj.text(dayVal);
+						}					
 					}
 					
 					yearObj.text(yearVal.toFixed(0));
@@ -171,6 +189,12 @@ function dateModify(whichDate, dir, part) {
 						// not the same. This happens because the days caused a roll over, probably do to the length of the month
 						// so we will set the new days to the end of the new month
 						daysVal = getDaysInMonth(yearVal, monthVal)
+						// display as 2 digits always
+						if(dayVal < 10) {
+							dayObj.text('0' + dayVal);
+						} else {
+							dayObj.text(dayVal);
+						}					
 					}
 					
 					
@@ -186,6 +210,11 @@ function dateModify(whichDate, dir, part) {
 					// decremenet
 					dayVal--;
 
+					// check bounds
+					if(dayVal < 1) {
+						dayVal = getDaysInMonth(yearVal, monthVal);
+					}
+					
 					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
 					// monthVal - 1 because month is stored in [0...11] format
 					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
@@ -388,8 +417,9 @@ function getDaysInMonth(year, month) {
 }
 
 function calcDates() {
-	var date1 = new Date($("#date1Year").text(), $("#date1Month").text(), $("#date1Day").text());
-	var date2 = new Date($("#date2Year").text(), $("#date2Month").text(), $("#date2Day").text());
+	// subtract month
+	var date1 = new Date($("#date1Year").text(), $("#date1Month").text() - 1, $("#date1Day").text());
+	var date2 = new Date($("#date2Year").text(), $("#date2Month").text() - 1, $("#date2Day").text());
 	var decimalDigits = 2;
 	
 	// calculate values for component results
