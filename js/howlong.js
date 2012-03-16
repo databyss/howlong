@@ -183,8 +183,8 @@ function dateModify(whichDate, dir, part) {
 					break;
 
 				case 'day':
-					// incremenet
-					dayVal++;
+					// decremenet
+					dayVal--;
 
 					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
 					// monthVal - 1 because month is stored in [0...11] format
