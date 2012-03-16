@@ -292,15 +292,15 @@ function getComponentDistance(date1, date2) {
 	}
 	
 	tempDay = smallDate.getDate();// store day value
-	fromEnd = getDaysInMonth(smallDate.getFullYear(), smallDate.getMonth()) - tempDay;
+	fromEnd = getDaysInMonth(smallDate.getFullYear(), smallDate.getMonth() + 1) - tempDay;
 	// iterate until we're exceed the larger date
 	while(smallDate.addMonths(1) <= largeDate) {
 		results["months"] += 1;
 	}
 	smallDate.addMonths(-1); // subtract one that was added in the while clause that failed
 	// if day's don't match, use same distance from end of new month
-	if(smallDate.getDate() != tempDay) {
-		smallDate.setDate(getDaysInMonth(smallDate.getFullYear(), smallDate.getMonth()) - fromEnd);
+	if((getDaysInMonth(smallDate.getFullYear(), smallDate.getMonth() + 1) - smallDate.getDate()) != fromEnd) {
+		smallDate.setDate(getDaysInMonth(smallDate.getFullYear(), smallDate.getMonth() + 1) - fromEnd);
 	}
 	
 	// iterate until we're exceed the larger date
