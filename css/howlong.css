@@ -1,0 +1,48 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#pageContainer {
+	max-width: 600px;
+	margin: auto;
+}
+.tab {
+	padding: 10px;
+	background-color: gray;
+}
+.resultHeader {
+	font-weight: bold;
+}
+.resultLabel {
+	font-weight: bold;
+	text-align: right;
+}
+.resultValue {
+	text-align: right;
+	padding-left: 20px;
+}
+.inputBox {
+	display: inline-block;
+	width: 50px;
+	height: 30px;
+	text-align: center;
+	vertical-align: middle;
+	padding-top: 5px;
+	margin-bottom: 5px;
+	background-color: #ADD8E6;
+}
+
+.columnHeader {
+	font-size: 42px;
+	font-weight: bold;
+	font-style: italic;
+	text-align: center;
+}
+.upDownInput {
+	text-align: center;
+}
+
+.upDownInput .value {
+	font-size: 36px;
+	font-weight: bold;
+}

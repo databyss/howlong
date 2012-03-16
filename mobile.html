@@ -1,0 +1,233 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+		
+		<title>How Long</title>
+		
+		<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="js/date.js"></script>
+		<script type="text/javascript" src="js/howlong.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/howlong.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.0rc1.min.css" />
+    </head>
+    <body>
+        <h1>How Long</h1>
+		
+		<div id="container">
+			<div id="inputs">
+				<span id="inputToggle1" class="tab" onclick="setInput(1);">Use 1</span>
+				<span id="inputToggle2" class="tab" onclick="setInput(2);">Use 2</span>
+				<span id="inputToggle3" class="tab" onclick="setInput(3);">Use 3</span>
+				
+				<br /><br />
+				
+				<div id="inputPanel1">
+					<h2>Input Panel 1</h2>
+					
+					Date:
+					<input id="1date1Input" type="text" name="date1" onchange="on1date1InputChange();" />
+					
+					<br />
+					
+					Date:
+					<input id="1date2Input" type="text" name="date2" onchange="on1date2InputChange();" />
+
+					<br /><br />
+		
+					<input type="submit" name="submit" value="GO GO GO" onclick="calcDates();" />
+				</div> <!-- inputPanel1 -->
+				
+				<div id="inputPanel2" style="display:none;">
+					<h2>Input Panel 2</h2>
+					
+					<div id="2date1Input">
+						Date:
+						<div id="2input1Year" class="inputBox" onclick="on2input1YearClick();"></div>
+						/
+						<div id="2input1Month" class="inputBox" onclick="on2input1MonthClick();"></div>
+						/
+						<div id="2input1Day" class="inputBox" onclick="on2input1DayClick();"></div>
+					</div>
+					
+					<div id="2time1Input">
+						Time:
+						<div id="2input1Hour" class="inputBox"></div>
+						:
+						<div id="2input1Minute" class="inputBox"></div>
+						:
+						<div id="2input1Second" class="inputBox"></div>
+					</div>
+					
+					<br />
+					
+					<div id="2date2Input">
+						Date:
+						<div id="2input2Year" class="inputBox"></div>
+						/
+						<div id="2input2Month" class="inputBox"></div>
+						/
+						<div id="2input2Day" class="inputBox"></div>
+					</div>
+					
+					<div id="2time2Input">
+						Time:
+						<div id="2input2Hour" class="inputBox"></div>
+						:
+						<div id="2input2Minute" class="inputBox"></div>
+						:
+						<div id="2input2Second" class="inputBox"></div>
+					</div>
+					
+					<br /><br />
+		
+					<input type="submit" name="submit" value="GO GO GO" onclick="calcDates2();" />
+				</div> <!-- inputPanel2 -->
+				
+				<div id="inputPanel3" style="display:none;">
+					<h2>Input Panel 3</h2>
+					
+					Input Date 5:
+					<input id="3date1Input" type="text" name="date1" />
+					
+					<br />
+					
+					Input Date 6:
+					<input id="3date2Input" type="text" name="date2" />
+
+					<br /><br />
+		
+					<input type="submit" name="submit" value="GO GO GO" onclick="calcDates3();" />
+				</div> <!-- inputPanel3 -->
+				
+			</div> <!-- inputs -->
+			
+			<br /><br />
+
+			<div id="outputs">
+				<span id="inputToggle1" class="tab" onclick="setOutput(1);">Broken Down</span>
+				<span id="inputToggle2" class="tab" onclick="setOutput(2);">Totals</span>
+				
+				<br /><br />
+				
+				<div id="outputPanel1" style="display:none;">
+					<span class="resultHeader">How Long Between Dates:</span>
+					
+					<br />
+					
+					<table>
+						<tr>
+							<td class="resultLabel">
+								Years
+							</td>
+							<td class="resultValue">
+								<span id="componentYears"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Months
+							</td>
+							<td class="resultValue">
+								<span id="componentMonths"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Days
+							</td>
+							<td class="resultValue">
+								<span id="componentDays"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Hours
+							</td>
+							<td class="resultValue">
+								<span id="componentHours"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Minutes
+							</td>
+							<td class="resultValue">
+								<span id="componentMinutes"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Seconds
+							</td>
+							<td class="resultValue">
+								<span id="componentSeconds"></span>
+							</td>
+						</tr>
+					</table>
+					<span id="result"></span>
+				</div> <!-- outputPanel1 -->
+				
+				<div id="outputPanel2">
+					<span class="resultHeader">Cumulative Results:</span>
+					
+					<br />
+					
+										<table>
+						<tr>
+							<td class="resultLabel">
+								Years
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeYears"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Months
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeMonths"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Days
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeDays"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Hours
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeHours"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Minutes
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeMinutes"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Seconds
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeSeconds"></span>
+							</td>
+						</tr>
+					</table>
+				</div> <!-- outputPanel2 -->
+				
+			</div> <!-- outputs -->
+		</div> <!-- container -->
+    </body>
+</html>

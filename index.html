@@ -1,0 +1,234 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+		<title>How Long</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+				
+		<link rel="stylesheet" type="text/css" href="css/howlong.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.0.1.min.css" />
+
+		<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="js/jquery.mobile-1.0.1.min.js"></script>
+		<script type="text/javascript" src="js/date.js"></script>
+		<script type="text/javascript" src="js/howlong.js"></script>		
+    </head>
+    <body>
+    	<div id="pageContainer">
+    		
+	        <h1>How Long</h1>
+			
+			<div id="container">
+				<form action="#" method="get">
+	
+				<div id="inputs">
+					
+					<div id="inputPanel1">
+						<div data-role="fieldcontain" class="ui-grid-b">
+							<div class="columnHeader ui-block-a">
+								Y
+							</div>
+							
+							<div class="columnHeader ui-block-b">
+								M
+							</div>
+							
+							<div class="columnHeader ui-block-c">
+								D
+							</div>
+						</div> <!-- fieldcontain -->
+						
+						<div data-role="fieldcontain" class="ui-grid-b">
+							<div class="upDownInput ui-block-a">
+								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date1Modify('up', 'year');"></button>
+								<br />
+								<span id="date1Year" class="value"></span>
+								<br />
+								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date1Modify('down', 'year');"></button>
+							</div>
+							
+							<div class="upDownInput ui-block-b">
+								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date1Modify('up', 'month');"></button>
+								<br />
+								<span id="date1Month" class="value"></span>
+								<br />
+								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date1Modify('down', 'month');"></button>
+							</div>
+							
+							<div class="upDownInput ui-block-c">
+								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date1Modify('up', 'day');"></button>
+								<br />
+								<span id="date1Day" class="value"></span>
+								<br />
+								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date1Modify('down', 'day');"></button>
+							</div>
+						</div> <!-- fieldcontain -->
+						
+						<div data-role="fieldcontain" class="ui-grid-b">
+							<div class="upDownInput ui-block-a">
+								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date2Modify('up', 'year');"></button>
+								<br />
+								<span id="date2Year" class="value"></span>
+								<br />
+								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date2Modify('down', 'year');"></button>
+							</div>
+							
+							<div class="upDownInput ui-block-b">
+								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date2Modify('up', 'month');"></button>
+								<br />
+								<span id="date2Month" class="value"></span>
+								<br />
+								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date2Modify('down', 'month');"></button>
+							</div>
+							
+							<div class="upDownInput ui-block-c">
+								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date2Modify('up', 'day');"></button>
+								<br />
+								<span id="date2Day" class="value"></span>
+								<br />
+								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date2Modify('down', 'day');"></button>
+							</div>
+						</div> <!-- fieldcontain -->
+			
+						<div data-role="fieldcontain">
+							<!--<button type="button" data-icon="refresh" onclick="calcDates();">GO GO GO</button>-->
+						</div> <!-- fieldcontain -->
+					</div> <!-- inputPanel1 -->
+	
+				</div> <!-- inputs -->
+	
+				</form>
+	
+				<br /><br />
+	
+				<div id="outputs">
+					<div data-role="navbar">
+						<ul>
+							<li id="outputToggle1" onclick="setOutput(1);"><a href="#" class="ui-btn-active">Broken Down</a></li>
+							<li id="outputToggle2" onclick="setOutput(2);"><a href="#">Totals</a></li>
+						</ul>
+					</div><!-- /navbar -->
+					
+					<br /><br />
+					
+					<div id="outputPanel1">
+						<h3>How Long Between Dates:</h3>
+						
+						<br />
+						
+						<table>
+							<tr>
+								<td class="resultLabel">
+									Years
+								</td>
+								<td class="resultValue">
+									<span id="componentYears"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="resultLabel">
+									Months
+								</td>
+								<td class="resultValue">
+									<span id="componentMonths"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="resultLabel">
+									Days
+								</td>
+								<td class="resultValue">
+									<span id="componentDays"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="resultLabel">
+									Hours
+								</td>
+								<td class="resultValue">
+									<span id="componentHours"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="resultLabel">
+									Minutes
+								</td>
+								<td class="resultValue">
+									<span id="componentMinutes"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="resultLabel">
+									Seconds
+								</td>
+								<td class="resultValue">
+									<span id="componentSeconds"></span>
+								</td>
+							</tr>
+						</table>
+	
+					</div> <!-- outputPanel1 -->
+					
+					<div id="outputPanel2" style="display:none;">
+						<h3>Cumulative Results:</h3>
+						
+						<br />
+						
+						<table>
+							<tr>
+								<td class="resultLabel">
+									Years
+								</td>
+								<td class="resultValue">
+									<span id="cumulativeYears"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="resultLabel">
+									Months
+								</td>
+								<td class="resultValue">
+									<span id="cumulativeMonths"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="resultLabel">
+									Days
+								</td>
+								<td class="resultValue">
+									<span id="cumulativeDays"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="resultLabel">
+									Hours
+								</td>
+								<td class="resultValue">
+									<span id="cumulativeHours"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="resultLabel">
+									Minutes
+								</td>
+								<td class="resultValue">
+									<span id="cumulativeMinutes"></span>
+								</td>
+							</tr>
+							<tr>
+								<td class="resultLabel">
+									Seconds
+								</td>
+								<td class="resultValue">
+									<span id="cumulativeSeconds"></span>
+								</td>
+							</tr>
+						</table>
+						
+					</div> <!-- outputPanel2 -->
+					
+				</div> <!-- outputs -->
+			</div> <!-- container -->
+    	</div> <!-- pageContainer -->
+    </body>
+</html>

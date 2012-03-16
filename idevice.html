@@ -1,0 +1,177 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+		<title>How Long</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1" /> 
+				
+		<link rel="stylesheet" type="text/css" href="css/howlong.css" />
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.0.1.min.css" />
+
+		<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="js/jquery.mobile-1.0.1.min.js"></script>
+		<script type="text/javascript" src="js/date.js"></script>
+		<script type="text/javascript" src="js/howlong_idevice.js"></script>		
+    </head>
+    <body>
+        <h1>How Long - With JQuery Mobile!</h1>
+		
+		<div id="container">
+			<form action="#" method="get">
+
+			<div id="inputs">
+				
+				<br /><br />
+				
+				<div id="inputPanel1">
+					<div data-role="fieldcontain">
+						<label for="date1">Date 1:</label>
+		         		<input type="date" name="date1" id="date1Input" value="" onchange="ondate1InputChange();" />
+					</div> <!-- fieldcontain -->
+					
+					<div data-role="fieldcontain">
+						<label for="date2">Date 2:</label>
+		         		<input type="date" name="date2" id="date2Input" value="" onchange="ondate2InputChange();" />
+					</div> <!-- fieldcontain -->
+		
+					<div data-role="fieldcontain">
+						<button type="button" data-icon="refresh" onclick="calcDates();">GO GO GO</button>
+					</div> <!-- fieldcontain -->
+				</div> <!-- inputPanel1 -->
+
+			</div> <!-- inputs -->
+
+			</form>
+
+			<br /><br />
+
+			<div id="outputs">
+				<div data-role="navbar">
+					<ul>
+						<li id="outputToggle1" onclick="setOutput(1);"><a href="#" class="ui-btn-active">Broken Down</a></li>
+						<li id="outputToggle2" onclick="setOutput(2);"><a href="#">Totals</a></li>
+					</ul>
+				</div><!-- /navbar -->
+				
+				<br /><br />
+				
+				<div id="outputPanel1">
+					<h3>How Long Between Dates:</h3>
+					
+					<br />
+					
+					<table>
+						<tr>
+							<td class="resultLabel">
+								Years
+							</td>
+							<td class="resultValue">
+								<span id="componentYears"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Months
+							</td>
+							<td class="resultValue">
+								<span id="componentMonths"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Days
+							</td>
+							<td class="resultValue">
+								<span id="componentDays"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Hours
+							</td>
+							<td class="resultValue">
+								<span id="componentHours"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Minutes
+							</td>
+							<td class="resultValue">
+								<span id="componentMinutes"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Seconds
+							</td>
+							<td class="resultValue">
+								<span id="componentSeconds"></span>
+							</td>
+						</tr>
+					</table>
+
+				</div> <!-- outputPanel1 -->
+				
+				<div id="outputPanel2" style="display:none;">
+					<h3>Cumulative Results:</h3>
+					
+					<br />
+					
+					<table>
+						<tr>
+							<td class="resultLabel">
+								Years
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeYears"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Months
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeMonths"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Days
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeDays"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Hours
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeHours"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Minutes
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeMinutes"></span>
+							</td>
+						</tr>
+						<tr>
+							<td class="resultLabel">
+								Seconds
+							</td>
+							<td class="resultValue">
+								<span id="cumulativeSeconds"></span>
+							</td>
+						</tr>
+					</table>
+					
+				</div> <!-- outputPanel2 -->
+				
+			</div> <!-- outputs -->
+		</div> <!-- container -->
+    </body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+		<title>How Long</title>		
+		
+        <link href="lib/touch1/resources/css/sencha-touch.css" rel="stylesheet" type="text/css" />
+
+        <script type="text/javascript" src="lib/touch1/sencha-touch.js"></script>
+
+		<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="js/date.js"></script>
+		<script type="text/javascript" src="js/howlong.js"></script>
+		
+		<!--<script type="text/javascript" src="js/app.js"></script>-->
+		
+		<script type="text/javascript"> 
+ 		
+		    new Ext.Application({
+				name: "How Long",
+		        launch: function(){
+					var headerPanel = new Ext.Panel({
+						dock: "top",
+						html: "<h1>How Long - Sencha!</h1>"
+					})
+					
+					var inputFields = {
+						xtype: "fieldset",
+						instructions: "Select two dates to see the time span between them.",
+						defaults: {
+							xtype: "datepickerfield",
+							value: new Date(),
+							picker: {
+								yearFrom: 1900,
+								yearTo: 2100,
+								useTitles: true,
+								slotOrder: ['month', 'day', 'year']
+							}
+						},
+						items: [
+							{
+								name: "date1",
+								label: "Date 1:"
+							},
+							{
+								name: "date2",
+								label: "Date 2:"
+							}
+						]					
+					}
+					
+					var outputFields = {
+						xtype: 'fieldset',
+						title: 'Results By Parts',
+						defaults: {
+							xtype: 'textfield'
+						},
+						items: [
+							{name: 'years', label: 'Years:'},
+							{name: 'months', label: 'Months:'},
+							{name: 'days', label: 'Days:'},
+							{name: 'hourss', label: 'Hours:'},
+							{name: 'minutes', label: 'Minutes:'},
+							{name: 'seconds', label: 'Seconds:'}
+						]					
+					}
+					
+					var inputPanel = new Ext.Panel({
+						title: "Input",
+						style: "background-color: #ddd;",
+						flex: 1,
+						items: [inputFields]
+					});
+					
+					var outputPartsPanel = new Ext.Panel({
+						title: "Broken Down",
+						items: [outputFields]
+					});
+
+					var outputTotalsPanel = new Ext.Panel({
+						title: "Totals"
+					});
+					
+					var outputPanel = new Ext.TabPanel({
+						title: "Output",
+						style: "background-color: #eee;",
+						flex: 2,
+						tabBar: {
+							layout: {
+								pack: "center"								
+							}
+						},
+						items: [outputPartsPanel, outputTotalsPanel]
+					});
+					
+					var mainPanel = new Ext.Panel({
+						fullscreen: true,
+						style: "background-color: #ccc;",
+						layout: {
+							type: "vbox",
+							align: "stretch",
+							pack: "end"
+						},
+						items: [inputPanel, outputPanel],
+						dockedItems: [headerPanel]
+					});
+					
+					//dateTimePicker.show();
+				}
+		    });
+		 
+		</script>	
+    </head>
+    <body></body>
+</html>
