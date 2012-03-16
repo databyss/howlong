@@ -270,8 +270,10 @@ function getComponentDistance(date1, date2) {
 	results["minutes"] = 0;
 	results["seconds"] = 0;
 
+	var tempDay; // store day value between checks to keep from losing it on year/month changes that have different days of the month
 	// start with a mass year differential to handle large sizes
 	var tempYear = (largeDate.getFullYear() - smallDate.getFullYear()) - 1;
+	tempDay = smallDate.getDate();
 	if(tempYear > 0) {
 		results["years"] = tempYear;
 		smallDate.addYears(tempYear);
@@ -282,6 +284,11 @@ function getComponentDistance(date1, date2) {
 		results["years"]+= 1;
 	}
 	smallDate.addYears(-1); // subtract one that was added in the while clause that failed
+	// reset day if off
+	if(smallDate.getDate() != tempDay) {
+		console.log('day changed, setting back to: ' + tempDay);
+		smallDate.setDate(tempDay);
+	}
 	
 	// iterate until we're exceed the larger date
 	while(smallDate.addMonths(1) <= largeDate) {
