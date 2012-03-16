@@ -38,134 +38,101 @@ function fill1input2(date) {
 }
 
 function date1Modify(dir, part) {
-	switch(dir) {
-		case 'up':
-			switch(part) {
-				case 'year':
-					var value = $('#date1Year').text();
-					value++;
-					// any bounds checking?
-					$('#date1Year').text(value);
-					break;
-
-				case 'month':
-					var value = $('#date1Month').text();
-					value++;
-					if(value > 12) value = 1;
-					if(value < 1) value = 12;
-					if(value < 10) {
-						$('#date1Month').text('0' + value);
-					} else {
-						$('#date1Month').text(value);
-					}					
-					break;
-
-				case 'day':
-					var value = $('#date1Day').text();
-					value++;
-					var tempDate = new Date($("#date1Year").text(), $("#date1Month").text() - 1, value);
-					// need bounds checking by date
-					// 1. convert to date
-					// 2. check if old values match new generated values
-					// 3. if not, wrap day, keep month and year same
-					if(tempDate.getFullYear() != $("#date1Year").text() || (tempDate.getMonth() + 1) != $("#date1Month").text()) {
-						// not the same, wrap depending on direction
-						value = 1;
-					}
-					if(value < 10) {
-						$('#date1Day').text('0' + value);
-					} else {
-						$('#date1Day').text(value);
-					}					
-					break;
-			}
-			break;
-			
-		case 'down':
-			switch(part) {
-				case 'year':
-					var value = $('#date1Year').text();
-					value--;
-					// any bounds checking?
-					$('#date1Year').text(value);
-					break;
-
-				case 'month':
-					var value = $('#date1Month').text();
-					value--;
-					if(value > 12) value = 1;
-					if(value < 1) value = 12;
-					if(value < 10) {
-						$('#date1Month').text('0' + value);
-					} else {
-						$('#date1Month').text(value);
-					}					
-					break;
-
-				case 'day':
-					var value = $('#date1Day').text();
-					value--;
-					var tempDate = new Date($("#date1Year").text(), $("#date1Month").text() - 1, value);
-					// need bounds checking by date
-					// 1. convert to date
-					// 2. check if old values match new generated values
-					// 3. if not, wrap day, keep month and year same
-					if(tempDate.getFullYear() != $("#date1Year").text() || (tempDate.getMonth() + 1) != $("#date1Month").text()) {
-						// not the same, wrap depending on direction
-						value = getDaysInMonth($("#date1Year").text(), $("#date1Month").text());
-					}
-					if(value < 10) {
-						$('#date1Day').text('0' + value);
-					} else {
-						$('#date1Day').text(value);
-					}					
-					break;
-			}
-			break;
-	}
-	
-	calcDates();
+	dateModify('1', dir, part);
 }
 
 function date2Modify(dir, part) {
+	dateModify('2', dir, part);
+}
+
+function dateModify(whichDate, dir, part) {
+	// will need all of these for roll over checking
+	var yearObj = $('#date' + whichDate + 'Year');
+	var monthObj = $('#date' + whichDate + 'Month');
+	var dayObj = $('#date' + whichDate + 'Day');
+	
+	var yearVal, monthVal, dayVal;
+	yearVal = Number(yearObj.text());
+	if(yearVal == null || yearVal == undefined || isNaN(yearVal)) {
+		console.log('yearVal is invalid: (' + yearVal + ')');
+		alert('Unexpected value: (' + yearVal + ')');
+		return;
+	}
+	monthVal = Number(monthObj.text());
+	if(monthVal == null || monthVal == undefined || isNaN(monthVal)) {
+		console.log('monthVal is invalid: (' + monthVal + ')');
+		alert('Unexpected value: (' + monthVal + ')');
+		return;
+	}
+	
+	dayVal = Number(dayObj.text());
+	if(dayVal == null || dayVal == undefined || isNaN(dayVal)) {
+		console.log('dayVal is invalid: (' + dayVal + ')');
+		alert('Unexpected value: (' + dayVal + ')');
+		return;
+	}
+	
 	switch(dir) {
 		case 'up':
 			switch(part) {
 				case 'year':
-					var value = $('#date2Year').text();
-					value++;
-					// any bounds checking?
-					$('#date2Year').text(value);
+					// incremenet
+					yearVal++;
+					
+					// bounds checking
+					// none now
+					
+					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
+						// monthVal - 1 because month is stored in [0...11] format
+					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
+						// not the same. This happens because the days caused a roll over, probably do to the length of the month
+						// so we will set the new days to the end of the new month
+						daysVal = getDaysInMonth(yearVal, monthVal)
+					}
+					
+					yearObj.text(yearVal.toFixed(0));
 					break;
 
 				case 'month':
-					var value = $('#date2Month').text();
-					value++;
-					if(value > 12) value = 1;
-					if(value < 1) value = 12;
-					if(value < 10) {
-						$('#date2Month').text('0' + value);
+					// incremenet
+					monthVal++;
+					
+					// bounds check
+					if(monthVal > 12) monthVal = 1;
+					
+					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
+					// monthVal - 1 because month is stored in [0...11] format
+					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
+						// not the same. This happens because the days caused a roll over, probably do to the length of the month
+						// so we will set the new days to the end of the new month
+						daysVal = getDaysInMonth(yearVal, monthVal)
+					}
+					
+					
+					// display as 2 digits always
+					if(monthVal < 10) {
+						monthObj.text('0' + monthVal);
 					} else {
-						$('#date2Month').text(value);
+						monthObj.text(monthVal);
 					}					
 					break;
 
 				case 'day':
-					var value = $('#date2Day').text();
-					value++;
-					var tempDate = new Date($("#date2Year").text(), $("#date2Month").text() - 1, value);
-					// need bounds checking by date
-					// 1. convert to date
-					// 2. check if old values match new generated values
-					// 3. if not, wrap day, keep month and year same
-					if(tempDate.getFullYear() != $("#date2Year").text() || (tempDate.getMonth() + 1) != $("#date2Month").text()) {
+					// incremenet
+					dayVal++;
+
+					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
+					// monthVal - 1 because month is stored in [0...11] format
+					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
 						// not the same, wrap depending on direction
-						value = 1;
+						dayVal = 1;
 					}
-					if(value < 10) {
-						$('#date2Day').text('0' + value);
+					
+					// display as 2 digits always
+					if(dayVal < 10) {
+						dayObj.text('0' + dayVal);
 					} else {
-						$('#date2Day').text(value);
+						dayObj.text(dayVal);
 					}					
 					break;
 			}
@@ -174,47 +141,80 @@ function date2Modify(dir, part) {
 		case 'down':
 			switch(part) {
 				case 'year':
-					var value = $('#date2Year').text();
-					value--;
-					// any bounds checking?
-					$('#date2Year').text(value);
+					// decremenet
+					yearVal--;
+					
+					// bounds checking
+					// none now
+					
+					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
+						// monthVal - 1 because month is stored in [0...11] format
+					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
+						// not the same. This happens because the days caused a roll over, probably do to the length of the month
+						// so we will set the new days to the end of the new month
+						daysVal = getDaysInMonth(yearVal, monthVal)
+					}
+					
+					yearObj.text(yearVal.toFixed(0));
 					break;
 
 				case 'month':
-					var value = $('#date2Month').text();
-					value--;
-					if(value > 12) value = 1;
-					if(value < 1) value = 12;
-					if(value < 10) {
-						$('#date2Month').text('0' + value);
+					// decremenet
+					monthVal--;
+					
+					// bounds check
+					if(monthVal < 1) monthVal = 12;
+					
+					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
+					// monthVal - 1 because month is stored in [0...11] format
+					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
+						// not the same. This happens because the days caused a roll over, probably do to the length of the month
+						// so we will set the new days to the end of the new month
+						daysVal = getDaysInMonth(yearVal, monthVal)
+					}
+					
+					
+					// display as 2 digits always
+					if(monthVal < 10) {
+						monthObj.text('0' + monthVal);
 					} else {
-						$('#date2Month').text(value);
+						monthObj.text(monthVal);
 					}					
 					break;
 
 				case 'day':
-					var value = $('#date2Day').text();
-					value--;
-					var tempDate = new Date($("#date2Year").text(), $("#date2Month").text() - 1, value);
-					// need bounds checking by date
-					// 1. convert to date
-					// 2. check if old values match new generated values
-					// 3. if not, wrap day, keep month and year same
-					if(tempDate.getFullYear() != $("#date2Year").text() || (tempDate.getMonth() + 1) != $("#date2Month").text()) {
+					// incremenet
+					dayVal++;
+
+					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
+					// monthVal - 1 because month is stored in [0...11] format
+					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
 						// not the same, wrap depending on direction
-						value = getDaysInMonth($("#date2Year").text(), $("#date2Month").text());
+						dayVal = 1;
 					}
-					if(value < 10) {
-						$('#date2Day').text('0' + value);
+					
+					// display as 2 digits always
+					if(dayVal < 10) {
+						dayObj.text('0' + dayVal);
 					} else {
-						$('#date2Day').text(value);
+						dayObj.text(dayVal);
 					}					
 					break;
 			}
 			break;
 	}
 	
-	calcDates();
+	calcDates();	
+}
+
+function doDatesMatch(year, month, day, date) {
+	// compare that the inputs make the same date
+	if(date.getFullYear() == year && date.getMonth() + 1 == month && date.getDate() == day) {
+		// date.getMonth() returns [0...11] so we need to offset that by 1 to account for month being [1...12]
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function getComponentDistance(date1, date2) {
@@ -356,7 +356,7 @@ function addCommas(nStr, decimalSeparator, thousandsSeparator)
 
 function ondate1InputChange() {
 	// validate date
-	var date = new Date($("#date1Year").val(), $("#date1Month").val() - 1, $("#date1Day").val()); // i forget why we -1 from month
+	var date = new Date($("#date1Year").val(), $("#date1Month").val() - 1, $("#date1Day").val()); // -1 from month because month is stored [0...1]
 	if(date !== undefined && date !==  null) {
 		// calculate new total
 		fill1input1(date);
@@ -368,7 +368,7 @@ function ondate1InputChange() {
 }
 
 function ondate2InputChange() {
-	var date = new Date($("#date2Year").val(), $("#date2Month").val() - 1, $("#date2Day").val()); // i forget why we -1 from month
+	var date = new Date($("#date2Year").val(), $("#date2Month").val() - 1, $("#date2Day").val()); // -1 from month because month is stored [0...1]
 	if(date !== undefined && date !==  null) {
 		// calculate new total
 		fill1input2(date);
