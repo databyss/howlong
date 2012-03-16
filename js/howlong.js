@@ -87,7 +87,7 @@ function dateModify(whichDate, dir, part) {
 					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
 						// not the same. This happens because the days caused a roll over, probably do to the length of the month
 						// so we will set the new days to the end of the new month
-						daysVal = getDaysInMonth(yearVal, monthVal)
+						dayVal = getDaysInMonth(yearVal, monthVal);
 						// display as 2 digits always
 						if(dayVal < 10) {
 							dayObj.text('0' + dayVal);
@@ -111,7 +111,7 @@ function dateModify(whichDate, dir, part) {
 					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
 						// not the same. This happens because the days caused a roll over, probably do to the length of the month
 						// so we will set the new days to the end of the new month
-						daysVal = getDaysInMonth(yearVal, monthVal)
+						dayVal = getDaysInMonth(yearVal, monthVal);
 						// display as 2 digits always
 						if(dayVal < 10) {
 							dayObj.text('0' + dayVal);
@@ -164,7 +164,7 @@ function dateModify(whichDate, dir, part) {
 					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
 						// not the same. This happens because the days caused a roll over, probably do to the length of the month
 						// so we will set the new days to the end of the new month
-						daysVal = getDaysInMonth(yearVal, monthVal)
+						dayVal = getDaysInMonth(yearVal, monthVal);
 						// display as 2 digits always
 						if(dayVal < 10) {
 							dayObj.text('0' + dayVal);
@@ -188,11 +188,14 @@ function dateModify(whichDate, dir, part) {
 					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
 						// not the same. This happens because the days caused a roll over, probably do to the length of the month
 						// so we will set the new days to the end of the new month
-						daysVal = getDaysInMonth(yearVal, monthVal)
+						console.log('year: '+yearVal+' month: '+monthVal+' daysInMonth: '+getDaysInMonth(yearVal, monthVal));
+						dayVal = getDaysInMonth(yearVal, monthVal);
 						// display as 2 digits always
 						if(dayVal < 10) {
+							console.log('changing days to ' + dayVal);
 							dayObj.text('0' + dayVal);
 						} else {
+							console.log('changing days to ' + dayVal);
 							dayObj.text(dayVal);
 						}					
 					}
