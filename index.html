@@ -7,11 +7,16 @@
 				
 		<link rel="stylesheet" type="text/css" href="css/howlong.css" />
 		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.0.1.min.css" />
-
+		<link rel="stylesheet" type="text/css" href="css/mobiscroll-1.6.min.css" />
+		
 		<script type="text/javascript" src="js/jquery-1.6.4.min.js"></script>
 		<script type="text/javascript" src="js/jquery.mobile-1.0.1.min.js"></script>
 		<script type="text/javascript" src="js/date.js"></script>
 		<script type="text/javascript" src="js/howlong.js"></script>		
+		<script type="text/javascript" src="js/mobiscroll-1.6.min.js"></script>
+		<script type="text/javascript">
+
+		</script>
     </head>
     <body>
     	<div id="pageContainer">
@@ -24,72 +29,15 @@
 				<div id="inputs">
 					
 					<div id="inputPanel1">
-						<div data-role="fieldcontain" class="ui-grid-b">
-							<div class="columnHeader ui-block-a">
-								Y
-							</div>
-							
-							<div class="columnHeader ui-block-b">
-								M
-							</div>
-							
-							<div class="columnHeader ui-block-c">
-								D
-							</div>
-						</div> <!-- fieldcontain -->
-						
-						<div data-role="fieldcontain" class="ui-grid-b">
-							<div class="upDownInput ui-block-a">
-								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date1Modify('up', 'year');"></button>
-								<br />
-								<span id="date1Year" class="value"></span>
-								<br />
-								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date1Modify('down', 'year');"></button>
-							</div>
-							
-							<div class="upDownInput ui-block-b">
-								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date1Modify('up', 'month');"></button>
-								<br />
-								<span id="date1Month" class="value"></span>
-								<br />
-								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date1Modify('down', 'month');"></button>
-							</div>
-							
-							<div class="upDownInput ui-block-c">
-								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date1Modify('up', 'day');"></button>
-								<br />
-								<span id="date1Day" class="value"></span>
-								<br />
-								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date1Modify('down', 'day');"></button>
-							</div>
-						</div> <!-- fieldcontain -->
-						
-						<div data-role="fieldcontain" class="ui-grid-b">
-							<div class="upDownInput ui-block-a">
-								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date2Modify('up', 'year');"></button>
-								<br />
-								<span id="date2Year" class="value"></span>
-								<br />
-								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date2Modify('down', 'year');"></button>
-							</div>
-							
-							<div class="upDownInput ui-block-b">
-								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date2Modify('up', 'month');"></button>
-								<br />
-								<span id="date2Month" class="value"></span>
-								<br />
-								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date2Modify('down', 'month');"></button>
-							</div>
-							
-							<div class="upDownInput ui-block-c">
-								<button type="button" data-icon="arrow-u" data-iconpos="top" onclick="date2Modify('up', 'day');"></button>
-								<br />
-								<span id="date2Day" class="value"></span>
-								<br />
-								<button type="button" data-icon="arrow-d" data-iconpos="top" onclick="date2Modify('down', 'day');"></button>
-							</div>
-						</div> <!-- fieldcontain -->
-			
+						<div data-role="fieldcontain">
+							<label for="date1">Date 1</label>
+							<input type="text" name="date1" id="date1" class="mobiscroll" onchange="ondate1InputChange();" />
+						</div>
+						<div data-role="fieldcontain">
+							<label for="date2">Date 2</label>
+							<input type="text" name="date2" id="date2" class="mobiscroll" onchange="ondate2InputChange();" />
+						</div>
+
 						<div data-role="fieldcontain">
 							<!--<button type="button" data-icon="refresh" onclick="calcDates();">GO GO GO</button>-->
 						</div> <!-- fieldcontain -->

@@ -2,6 +2,7 @@
  * References:
  * 	http://www.hunlock.com/blogs/Javascript_Dates-The_Complete_Reference#toSource
  * 	http://www.datejs.com/
+ *  http://www.mobiscroll.com/
  *  Evaluate Need for datejs
  */			
  
@@ -14,230 +15,37 @@ function setOutput(page) {
 // set all dates to now just for kicks
 $(document).ready(function() {
 	// set all dates to now on load
-	var date1 = new Date();
-	var date2 = new Date();
+	var d = new Date();
 
-	// set dates for input 1
-	fill1input1(date1);
-	fill1input2(date2);
+	// initialize mobiscroll datetime pickers
+    $('#date1').scroller({ 
+    	preset: 'datetime',
+    	theme: 'android',
+    	mode: 'scroller',
+		startYear: d.getFullYear() - 100,
+    	endYear: d.getFullYear() + 100,
+    	seconds: true,
+    	dateFormat: 'D M dd, yyyy',
+    	timeFormat: 'hh:ii:ss a'
+    });
+    $('#date2').scroller({ 
+    	preset: 'datetime',
+    	theme: 'android',
+    	mode: 'scroller',
+		startYear: d.getFullYear() - 100, 
+    	endYear: d.getFullYear() + 100,
+    	seconds: true,
+    	dateFormat: 'D M dd, yyyy',
+    	timeFormat: 'hh:ii:ss a'
+    });
+
+	// set dates for input
+	//$('#date1').val($('#date1').scroller.formatDate('M dd, yyyy hh:ii:ss a', d));
+	//$('#date2').val($('#date2').scroller.formatDate('M dd, yyyy hh:ii:ss a', d));
 	
 	// currently starting with 1
 	calcDates(date1, date2);
 });
-
-function fill1input1(date) {
-	$("#date1Year").text(date.toString("yyyy"));
-	$("#date1Month").text(date.toString("MM"));
-	$("#date1Day").text(date.toString("dd"));
-}
-
-function fill1input2(date) {
-	$("#date2Year").text(date.toString("yyyy"));
-	$("#date2Month").text(date.toString("MM"));
-	$("#date2Day").text(date.toString("dd"));
-}
-
-function date1Modify(dir, part) {
-	dateModify('1', dir, part);
-}
-
-function date2Modify(dir, part) {
-	dateModify('2', dir, part);
-}
-
-function dateModify(whichDate, dir, part) {
-	// will need all of these for roll over checking
-	var yearObj = $('#date' + whichDate + 'Year');
-	var monthObj = $('#date' + whichDate + 'Month');
-	var dayObj = $('#date' + whichDate + 'Day');
-	
-	var yearVal, monthVal, dayVal;
-	yearVal = Number(yearObj.text());
-	if(yearVal == null || yearVal == undefined || isNaN(yearVal)) {
-		console.log('yearVal is invalid: (' + yearVal + ')');
-		alert('Unexpected value: (' + yearVal + ')');
-		return;
-	}
-	monthVal = Number(monthObj.text());
-	if(monthVal == null || monthVal == undefined || isNaN(monthVal)) {
-		console.log('monthVal is invalid: (' + monthVal + ')');
-		alert('Unexpected value: (' + monthVal + ')');
-		return;
-	}
-	
-	dayVal = Number(dayObj.text());
-	if(dayVal == null || dayVal == undefined || isNaN(dayVal)) {
-		console.log('dayVal is invalid: (' + dayVal + ')');
-		alert('Unexpected value: (' + dayVal + ')');
-		return;
-	}
-	
-	switch(dir) {
-		case 'up':
-			switch(part) {
-				case 'year':
-					// incremenet
-					yearVal++;
-					
-					// bounds checking
-					// none now
-					
-					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
-						// monthVal - 1 because month is stored in [0...11] format
-					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
-						// not the same. This happens because the days caused a roll over, probably do to the length of the month
-						// so we will set the new days to the end of the new month
-						dayVal = getDaysInMonth(yearVal, monthVal);
-						// display as 2 digits always
-						if(dayVal < 10) {
-							dayObj.text('0' + dayVal);
-						} else {
-							dayObj.text(dayVal);
-						}					
-					}
-					
-					yearObj.text(yearVal.toFixed(0));
-					break;
-
-				case 'month':
-					// incremenet
-					monthVal++;
-					
-					// bounds check
-					if(monthVal > 12) monthVal = 1;
-					
-					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
-					// monthVal - 1 because month is stored in [0...11] format
-					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
-						// not the same. This happens because the days caused a roll over, probably do to the length of the month
-						// so we will set the new days to the end of the new month
-						dayVal = getDaysInMonth(yearVal, monthVal);
-						// display as 2 digits always
-						if(dayVal < 10) {
-							dayObj.text('0' + dayVal);
-						} else {
-							dayObj.text(dayVal);
-						}					
-					}
-					
-					
-					// display as 2 digits always
-					if(monthVal < 10) {
-						monthObj.text('0' + monthVal);
-					} else {
-						monthObj.text(monthVal);
-					}					
-					break;
-
-				case 'day':
-					// incremenet
-					dayVal++;
-
-					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
-					// monthVal - 1 because month is stored in [0...11] format
-					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
-						// not the same, wrap depending on direction
-						dayVal = 1;
-					}
-					
-					// display as 2 digits always
-					if(dayVal < 10) {
-						dayObj.text('0' + dayVal);
-					} else {
-						dayObj.text(dayVal);
-					}					
-					break;
-			}
-			break;
-			
-		case 'down':
-			switch(part) {
-				case 'year':
-					// decremenet
-					yearVal--;
-					
-					// bounds checking
-					// none now
-					
-					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
-						// monthVal - 1 because month is stored in [0...11] format
-					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
-						// not the same. This happens because the days caused a roll over, probably do to the length of the month
-						// so we will set the new days to the end of the new month
-						dayVal = getDaysInMonth(yearVal, monthVal);
-						// display as 2 digits always
-						if(dayVal < 10) {
-							dayObj.text('0' + dayVal);
-						} else {
-							dayObj.text(dayVal);
-						}					
-					}
-					
-					yearObj.text(yearVal.toFixed(0));
-					break;
-
-				case 'month':
-					// decremenet
-					monthVal--;
-					
-					// bounds check
-					if(monthVal < 1) monthVal = 12;
-					
-					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
-					// monthVal - 1 because month is stored in [0...11] format
-					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
-						// not the same. This happens because the days caused a roll over, probably do to the length of the month
-						// so we will set the new days to the end of the new month
-						console.log('year: '+yearVal+' month: '+monthVal+' daysInMonth: '+getDaysInMonth(yearVal, monthVal));
-						dayVal = getDaysInMonth(yearVal, monthVal);
-						// display as 2 digits always
-						if(dayVal < 10) {
-							console.log('changing days to ' + dayVal);
-							dayObj.text('0' + dayVal);
-						} else {
-							console.log('changing days to ' + dayVal);
-							dayObj.text(dayVal);
-						}					
-					}
-					
-					
-					// display as 2 digits always
-					if(monthVal < 10) {
-						monthObj.text('0' + monthVal);
-					} else {
-						monthObj.text(monthVal);
-					}					
-					break;
-
-				case 'day':
-					// decremenet
-					dayVal--;
-
-					// check bounds
-					if(dayVal < 1) {
-						dayVal = getDaysInMonth(yearVal, monthVal);
-					}
-					
-					// check for day rollover Ex: 1/31 -> 2/31; 2/31 doesn't exist, make 2/28 or 29 depending on leap year
-					// monthVal - 1 because month is stored in [0...11] format
-					if(!doDatesMatch(yearVal, monthVal, dayVal, new Date(yearVal, monthVal - 1, dayVal))) {
-						// not the same, wrap depending on direction
-						dayVal = 1;
-					}
-					
-					// display as 2 digits always
-					if(dayVal < 10) {
-						dayObj.text('0' + dayVal);
-					} else {
-						dayObj.text(dayVal);
-					}					
-					break;
-			}
-			break;
-	}
-	
-	calcDates();	
-}
 
 function doDatesMatch(year, month, day, date) {
 	// compare that the inputs make the same date
@@ -402,10 +210,9 @@ function addCommas(nStr, decimalSeparator, thousandsSeparator)
 
 function ondate1InputChange() {
 	// validate date
-	var date = new Date($("#date1Year").val(), $("#date1Month").val() - 1, $("#date1Day").val()); // -1 from month because month is stored [0...1]
+	var date = new Date($("#date1").val());
 	if(date !== undefined && date !==  null) {
 		// calculate new total
-		fill1input1(date);
 		calcDates();
 	} else {
 		alert(date + " is not a valid date.");
@@ -414,10 +221,9 @@ function ondate1InputChange() {
 }
 
 function ondate2InputChange() {
-	var date = new Date($("#date2Year").val(), $("#date2Month").val() - 1, $("#date2Day").val()); // -1 from month because month is stored [0...1]
+	var date = new Date($("#date2").val());
 	if(date !== undefined && date !==  null) {
 		// calculate new total
-		fill1input2(date);
 		calcDates();
 	} else {
 		alert(date + " is not a valid date.");
@@ -435,8 +241,8 @@ function getDaysInMonth(year, month) {
 
 function calcDates() {
 	// subtract month
-	var date1 = new Date($("#date1Year").text(), $("#date1Month").text() - 1, $("#date1Day").text());
-	var date2 = new Date($("#date2Year").text(), $("#date2Month").text() - 1, $("#date2Day").text());
+	var date1 = new Date($("#date1").val());
+	var date2 = new Date($("#date2").val());
 	var decimalDigits = 2;
 	
 	// calculate values for component results
