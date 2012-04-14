@@ -24,9 +24,9 @@ $(document).ready(function() {
     	mode: 'scroller',
 		startYear: d.getFullYear() - 100,
     	endYear: d.getFullYear() + 100,
-    	seconds: true,
+    	seconds: false,
     	dateFormat: 'D M dd, yyyy',
-    	timeFormat: 'hh:ii:ss a'
+    	timeFormat: 'hh:ii a'
     });
     $('#date2').scroller({ 
     	preset: 'datetime',
@@ -34,14 +34,14 @@ $(document).ready(function() {
     	mode: 'scroller',
 		startYear: d.getFullYear() - 100, 
     	endYear: d.getFullYear() + 100,
-    	seconds: true,
+    	seconds: false,
     	dateFormat: 'D M dd, yyyy',
-    	timeFormat: 'hh:ii:ss a'
+    	timeFormat: 'hh:ii a'
     });
 
 	// set dates for input
-	//$('#date1').val($('#date1').scroller.formatDate('M dd, yyyy hh:ii:ss a', d));
-	//$('#date2').val($('#date2').scroller.formatDate('M dd, yyyy hh:ii:ss a', d));
+	$('#date1').val($.scroller.formatDate('D M dd, yyyy hh:ii a', d));
+	$('#date2').val($.scroller.formatDate('D M dd, yyyy hh:ii a', d));
 	
 	// currently starting with 1
 	calcDates(date1, date2);
